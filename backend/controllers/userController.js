@@ -2,7 +2,6 @@ import asyncHandler from "express-async-handler";
 import User from "../models/userModel.js";
 import generateToken from "../utils/generateToken.js";
 
-
 //@description     Auth the user
 //@route           POST /api/users/login
 //@access          Public
@@ -85,12 +84,10 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       isAdmin: updatedUser.isAdmin,
       token: generateToken(updatedUser._id),
     });
-
   } else {
     res.status(404);
     throw new Error("User Not Found");
   }
 });
-
 
 export { authUser, updateUserProfile, registerUser };

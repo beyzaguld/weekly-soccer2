@@ -16,6 +16,9 @@ const app = express(); // main thing
 
 app.use(express.json()); // to accept json data
 
+app.use("/api/notes", noteRoutes);
+app.use("/api/users", userRoutes);
+
 // --------------------------deployment------------------------------
 const __dirname = path.resolve();
 
@@ -32,14 +35,11 @@ if (process.env.NODE_ENV === "production") {
 }
 // --------------------------deployment------------------------------
 
-app.use("/api/notes", noteRoutes);
-app.use("/api/users", userRoutes);
-
 // Error Handling middlewares
 app.use(notFound);
 app.use(errorHandler);
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 
 app.listen(
   PORT,
@@ -48,11 +48,3 @@ app.listen(
       .bold
   )
 );
-
-// static files (build of your frontend)
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../frontend", "build")));
-  app.get("/*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../frontend", "build", "index.html"));
-  });
-}
